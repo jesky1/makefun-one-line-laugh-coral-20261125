@@ -22,9 +22,11 @@ export function screenEntry(text: string): string | null {
   if (/[\u200B-\u200F\uFEFF]/.test(text)) return "no invisible characters";
   if (!/[A-Za-z]/.test(text)) return "entry must contain letters";
   if (/https?:\/\/|www\./i.test(text)) return "no links in the entry";
+  if (/  /.test(text)) return "no double spaces";
   if (/(.)\1{4,}/.test(text)) return "no repeated-character spam";
   if (text.split(/\s+/).length < 5) return "entry must be at least 5 words";
   if (!/[.!?]$/.test(text)) return "entry must end with terminal punctuation";
+  if (/\b(\w+)\s+\1\b/i.test(text)) return "no immediately repeated word";
   return null;
 }
 
